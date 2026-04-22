@@ -15,6 +15,6 @@ do
 done
 
 out_sum=$(bitcoin-cli -signet getrawtransaction "$txid" true \
-| jq '[.vout[].value] | add')
+| jq -r '[.vout[].value] | add')
 
-echo "($in_sum - $out_sum) * 100000000" | bc
+echo "scale=0; ($in_sum - $out_sum) * 100000000 / 1" | bc
