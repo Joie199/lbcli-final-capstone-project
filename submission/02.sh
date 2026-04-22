@@ -3,9 +3,12 @@ block=243825
 
 hash=$(bitcoin-cli -signet getblockhash $block)
 
-count=$(bitcoin-cli -signet getblock "$hash" \
-| jq -r '.tx[]' \
-| xargs -I {} bitcoin-cli -signet getrawtransaction {} true \
-| jq '[.vout | length] | add')
+count=0
+
+for tx in $(bitcoin-cli -signet getblock "$hash" | jq -r '.tx[]')
+do
+    outputs=$(bitcoin-cli -signet getrawtransaction "$tx" true | jq '.vout | length')
+    count=$((count + outputs))
+done
 
 echo "$count"
