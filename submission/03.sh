@@ -7,6 +7,9 @@ coinbase_txid=$(bitcoin-cli -signet getblock "$coinbase_hash" | jq -r '.tx[0]')
 
 target_hash=$(bitcoin-cli -signet getblockhash $target_block)
 
-tx=$(bitcoin-cli -signet getblock "$target_hash" | jq -r '.tx[]' | xargs -I {} bitcoin-cli getrawtransaction {} true | jq -r --arg cb "$coinbase_txid" ' select(.vin[]?.txid == $cb) | .txid')
+tx=$(bitcoin-cli -signet getblock "$target_hash" \
+| jq -r '.tx[]' \
+| xargs -I {} bitcoin-cli -signet getrawtransaction {} true \
+| jq -r --arg cb "$coinbase_txid" 'select(.vin[]?.txid == $cb) | .txid')
 
 echo "$tx"
