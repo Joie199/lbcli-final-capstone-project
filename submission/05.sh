@@ -18,7 +18,6 @@ fee=$(echo "$inputBTC - $outputBTC" | bc)
 
 feeSats=$(echo "$fee * 100000000 / 1" | bc)
 
-roundedSats=$(( (("$feeSats + 99") / 100) * 100 ))
-finalSats=$(("$roundedSats / 100 * 100"))
+roundedSats=$(( (feeSats + 99) / 100 * 100 ))
 
-echo "$finalSats"
+echo "$roundedSats"
