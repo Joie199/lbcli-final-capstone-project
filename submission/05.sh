@@ -16,7 +16,8 @@ outputBTC=$(echo "$tx" | jq '[.vout[].value] | add')
 
 fee=$(echo "$inputBTC - $outputBTC" | bc)
 
-feeSats=$(echo "$fee * 100000000" | bc)
+feeSats=$(echo "$fee * 100000000 / 1" | bc)
+
 roundedFee=$(( ((feeSats + 99) / 100) * 100 ))
 
 echo "$roundedFee"
