@@ -22,6 +22,5 @@ roundedSats=$(( ((feeSats + 99) / 100) * 100 ))
 
 roundedBTC=$(echo "scale=8; $roundedSats / 100000000" | bc)
 
-finalfees=$(printf "%.8f\n" "$roundedBTC")
 
-echo "$finalfees"
+echo "$roundedBTC"
