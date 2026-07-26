@@ -10,4 +10,4 @@ inputs=$(bitcoin-cli -signet -rpcuser=btrustbuildersrpc -rpcpassword=btrustbuild
 
 outputs=$(echo "$tx" | jq '[.vout[].value] | add')
 
-echo "($inputs - $outputs) * 100000000" | bc
+echo "($inputs - $outputs) * 100000000"
