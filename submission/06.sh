@@ -3,4 +3,5 @@ RPC="bitcoin-cli -signet -rpcuser=btrustbuildersrpc -rpcpassword=btrustbuildersp
 
 block_hash=$($RPC getblockhash 243821)
 
-$RPC getblock "$block_hash" | jq -r '.tx[]' | xargs -I {} sh -c "$RPC getrawtransaction {} true | jq -e '.vin[]? | select(.sequence < 4294967294)' >/dev/null && echo {}"
+txid=($RPC getblock "$block_hash" | jq -r '.tx[]' | xargs -I {} bash -c "$RPC getrawtransaction {} true | jq -e '.vin[]? | select(.sequence < 4294967294)' >/dev/null && echo {}")
+echo "$txid"
